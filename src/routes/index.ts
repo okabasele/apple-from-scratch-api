@@ -5,15 +5,10 @@ import sendMail from "../webhook/mailer";
 
 const router = Router();
 
-router.post('/checkout-session', stripeController.createStripeCheckoutSession);
-router.post('/email', async (req, res) =>{
-  try {
-    
-    await sendMail('oceane.kabasele@ynov.com', 'test', 'test', 'test');
-  return res.json({success:true});
-    } catch (error) {
-      return res.status(400).json({success:false, error});
-    }
+router.get('/', (req, res) => {
+    res.send('Welcome to the Apple from scratch API');
 });
+
+router.post('/checkout-session', stripeController.createStripeCheckoutSession);
 
 module.exports = router;
