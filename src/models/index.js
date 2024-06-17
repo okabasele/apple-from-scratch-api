@@ -12,7 +12,12 @@ const db = {};
 let sequelize;
 
 // on se connecte à la base de données avec la configuration de sequelize
-sequelize = new Sequelize(config.database, config.username, config.password, config);
+sequelize = new Sequelize(config.database, config.username, config.password, {
+  port: config.port,
+  host: config.host,
+  dialect: config.dialect,
+  ...(config.ssl ? { dialectOptions: { ssl: { require: true } } } : null),
+});
 
 // on récupère tous les modèles de sequelize qui se trouvent dans le dossier courant
 fs

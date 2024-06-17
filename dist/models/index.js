@@ -1,4 +1,15 @@
 'use strict';
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var fs = require('fs');
 var path = require('path');
 var Sequelize = require('sequelize');
@@ -9,7 +20,7 @@ var config = require(__dirname + '/../config/config.js')[env];
 var db = {};
 var sequelize;
 // on se connecte à la base de données avec la configuration de sequelize
-sequelize = new Sequelize(config.database, config.username, config.password, config);
+sequelize = new Sequelize(config.database, config.username, config.password, __assign({ port: config.port, host: config.host, dialect: config.dialect }, (config.ssl ? { dialectOptions: { ssl: { require: true } } } : null)));
 // on récupère tous les modèles de sequelize qui se trouvent dans le dossier courant
 fs
     .readdirSync(__dirname)

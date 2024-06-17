@@ -37,14 +37,11 @@ const commonConfig = {
   host: DB_HOST,
   port: DB_PORT,
   dialect: DB_DIALECT,
-  define: {
-    timestamps: false
-}
 }
 
 // Export de la configuration
 module.exports = {
   development: commonConfig,
   test: commonConfig,
-  production: commonConfig
+  production: {...commonConfig, ssl:true}
 }
