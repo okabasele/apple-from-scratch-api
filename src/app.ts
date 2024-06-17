@@ -1,20 +1,25 @@
-import express, { Request, Response } from 'express';
-
 require('dotenv').config()
-const app = express();
+import express from 'express';
+import stripeWebhook from './webhook/stripe';
 const cors = require('cors');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+
+const app = express();
 const db = require("./models");
 const typeDefs =require('./graphql/schemas');
 const resolvers = require('./graphql/resolvers');
+const apiRoutes = require('./routes');
 
 const initApplication = async() => {
     app.use(cors());
+    app.use('/webhook', express.raw({ type: 'application/json' }));
+    app.post('/webhook', stripeWebhook);
     if (process.env.FRONTEND_URL) {
         app.options(process.env.FRONTEND_URL, cors());
     }
     app.use(express.json());
+    app.use('/', apiRoutes)
 
     await db.sequelize.sync()
     .then(() => {
@@ -24,18 +29,13 @@ const initApplication = async() => {
         console.error('database synchronisation error :', err);
     });
 
-    app.get("/", (req: Request, res: Response) => {
-        res.send("Welcome to my API");
-    })
-
     const serverGraphQL = new ApolloServer({
         typeDefs,
-        resolvers
-    })
-
+        resolvers,
+    });
     await serverGraphQL.start();
 
-    app.use(expressMiddleware(serverGraphQL, {
+    app.use('/graphql',expressMiddleware(serverGraphQL, {
         path: '/graphql',
     }));
 

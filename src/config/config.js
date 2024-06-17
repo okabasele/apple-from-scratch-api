@@ -22,10 +22,10 @@ switch (environment) {
 dotenv.config({ path: envFile });
 
 // destructuration des variables d'environement dans le fichier .env
-const { DB_USER, DB_PWD, DB_NAME, DB_HOST, DB_PORT } = process.env;
+const { DB_USER, DB_PWD, DB_NAME, DB_HOST, DB_PORT, DB_DIALECT } = process.env;
 
 // Si pas de variables d'environement, on lève une erreur
-if (!DB_USER || !DB_PWD || !DB_NAME || !DB_HOST || !DB_PORT) {
+if (!DB_USER || !DB_PWD || !DB_NAME || !DB_HOST || !DB_PORT || !DB_DIALECT) {
   throw new Error('Please provide env variables.');
 }
 
@@ -36,7 +36,7 @@ const commonConfig = {
   database: DB_NAME,
   host: DB_HOST,
   port: DB_PORT,
-  dialect: "mysql",
+  dialect: DB_DIALECT,
   define: {
     timestamps: false
 }

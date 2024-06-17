@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node ./dist/app.js",
-    "dev": "nodemon ./src/app.js",
+    "dev": "nodemon ./src/app.ts",
     "dev:watch": "nodemon dist/app.js --watch dist",
     "build": "tsc",
     "build:watch": "tsc --watch"
@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.10.0",
+    "@getbrevo/brevo": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -21,11 +22,13 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.8.0",
     "sequelize": "^6.33.0",
-    "sequelize-cli": "^6.6.1"
+    "sequelize-cli": "^6.6.1",
+    "stripe": "^15.10.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
     "nodemon": "^3.0.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
 }

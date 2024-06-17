@@ -15,7 +15,7 @@ const resolvers = {
         },
         getProduct:  async (parent: any, args: any, context:any, info:any) => {
             const product = db.Product.findByPk(args.id);
-            if (product) {
+            if (!product) {
                 throw new GraphQLError("Product not found", {
                     extensions: { code: 'NOT_FOUND' },
                   });
